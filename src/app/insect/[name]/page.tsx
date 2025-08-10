@@ -73,6 +73,61 @@ export default function InsectDetailPage() {
     { name: "マルモンシロナミシャク", category: "ガ", imagePath: "/ガ/マルモンシロ ナミシャク.png" },
     { name: "ヨツメアオシャク", category: "ガ", imagePath: "/ガ/ヨツメアオシャク.png" },
     { name: "ヨツモンマエジロアオシャク", category: "ガ", imagePath: "/ガ/ヨツモンマエジロアオシャク.png" },
+    // カブト・クワガタ
+    { name: "オウゴンオニクワガタ", category: "カブト・クワガタ", imagePath: "/カブト・クワガタ/オウゴンオニクワガタ.png" },
+    { name: "オオクワガタ", category: "カブト・クワガタ", imagePath: "/カブト・クワガタ/オオクワガタ.png" },
+    { name: "カブトムシ", category: "カブト・クワガタ", imagePath: "/カブト・クワガタ/カブトムシ.png" },
+    { name: "ギラファノコギリクワガタ", category: "カブト・クワガタ", imagePath: "/カブト・クワガタ/ギラファノコギリクワガタ.png" },
+    { name: "コガネムシ", category: "カブト・クワガタ", imagePath: "/カブト・クワガタ/コガネムシ.png" },
+    { name: "ニジイロクワガタ", category: "カブト・クワガタ", imagePath: "/カブト・クワガタ/ニジイロクワガタ.png" },
+    { name: "ヒラタクワガタ", category: "カブト・クワガタ", imagePath: "/カブト・クワガタ/ヒラタクワガタ.png" },
+    { name: "ホソアカクワガタ", category: "カブト・クワガタ", imagePath: "/カブト・クワガタ/ホソアカクワガタ.png" },
+    { name: "メンガタクワガタ", category: "カブト・クワガタ", imagePath: "/カブト・クワガタ/メンガタクワガタ.png" },
+    // 身近な虫
+    { name: "アカトンボ", category: "身近な虫", imagePath: "/身近な虫/アカトンボ.png" },
+    { name: "アブラムシ", category: "身近な虫", imagePath: "/身近な虫/アブラムシ.png" },
+    { name: "アメンボ", category: "身近な虫", imagePath: "/身近な虫/アメンボ.png" },
+    { name: "エンマコオロギ", category: "身近な虫", imagePath: "/身近な虫/エンマコオロギ.png" },
+    { name: "オケラ", category: "身近な虫", imagePath: "/身近な虫/オケラ.png" },
+    { name: "オタマジャクシ", category: "身近な虫", imagePath: "/身近な虫/オタマジャクシ.png" },
+    { name: "オニヤンマ", category: "身近な虫", imagePath: "/身近な虫/オニヤンマ.png" },
+    { name: "オンブバッタ", category: "身近な虫", imagePath: "/身近な虫/オンブバッタ.png" },
+    { name: "カ", category: "身近な虫", imagePath: "/身近な虫/カ.png" },
+    { name: "カタツムリ", category: "身近な虫", imagePath: "/身近な虫/カタツムリ.png" },
+    { name: "クロアリ", category: "身近な虫", imagePath: "/身近な虫/クロアリ.png" },
+    { name: "サワガニ", category: "身近な虫", imagePath: "/身近な虫/サワガニ.png" },
+    { name: "シロアリ", category: "身近な虫", imagePath: "/身近な虫/シロアリ.png" },
+    { name: "タガメ", category: "身近な虫", imagePath: "/身近な虫/タガメ.png" },
+    { name: "タニシ", category: "身近な虫", imagePath: "/身近な虫/タニシ.png" },
+    { name: "ダンゴムシ", category: "身近な虫", imagePath: "/身近な虫/ダンゴムシ.png" },
+    { name: "トノサマバッタ", category: "身近な虫", imagePath: "/身近な虫/トノサマバッタ.png" },
+    { name: "ナナホシテントウ(斜め)", category: "身近な虫", imagePath: "/身近な虫/ナナホシテントウ(斜め).png" },
+    { name: "ナナホシテントウ", category: "身近な虫", imagePath: "/身近な虫/ナナホシテントウ.png" },
+    { name: "ニジュウヤホテントウ", category: "身近な虫", imagePath: "/身近な虫/ニジュウヤホテントウ.png" },
+    { name: "ハサミムシ", category: "身近な虫", imagePath: "/身近な虫/ハサミムシ.png" },
+    { name: "ヒアリ", category: "身近な虫", imagePath: "/身近な虫/ヒアリ.png" },
+    { name: "マイマイカブリ", category: "身近な虫", imagePath: "/身近な虫/マイマイカブリ.png" },
+    { name: "ムカデ", category: "身近な虫", imagePath: "/身近な虫/ムカデ.png" },
+    { name: "ヤゴ", category: "身近な虫", imagePath: "/身近な虫/ヤゴ.png" },
+    { name: "ワラジムシ", category: "身近な虫", imagePath: "/身近な虫/ワラジムシ.png" },
+    { name: "可愛いサワガニ君", category: "身近な虫", imagePath: "/身近な虫/可愛いサワガニ君.png" },
+    { name: "可愛いハエ", category: "身近な虫", imagePath: "/身近な虫/可愛いハエ.png" },
+    // カエル
+    { name: "アメフクラガエル", category: "カエル", imagePath: "/カエル/アメフクラガエル.png" },
+    { name: "ウシガエル", category: "カエル", imagePath: "/カエル/ウシガエル.png" },
+    { name: "ゴライアスガエル", category: "カエル", imagePath: "/カエル/ゴライアスガエル.png" },
+    { name: "ツチガエル", category: "カエル", imagePath: "/カエル/ツチガエル.png" },
+    { name: "ツノガエル(アルビノ)", category: "カエル", imagePath: "/カエル/ツノガエル(アルビノ).png" },
+    { name: "ツノガエル(ペパーミント)", category: "カエル", imagePath: "/カエル/ツノガエル(ペパーミント).png" },
+    { name: "ツノガエル(緑)", category: "カエル", imagePath: "/カエル/ツノガエル(緑).png" },
+    { name: "ツノガエル(赤)", category: "カエル", imagePath: "/カエル/ツノガエル(赤).png" },
+    { name: "バシェットガエル(口開け)", category: "カエル", imagePath: "/カエル/バシェットガエル(口開け).png" },
+    { name: "バジェットガエル", category: "カエル", imagePath: "/カエル/バジェットガエル.png" },
+    { name: "ヒキガエル", category: "カエル", imagePath: "/カエル/ヒキガエル.png" },
+    { name: "ヤドクガエル", category: "カエル", imagePath: "/カエル/ヤドクガエル.png" },
+    // その他
+    { name: "ディアボリカル・アイアンクラッド・ビートル", category: "その他", imagePath: "/その他/ディアボリカル・アイアンクラッド・ビートル.png" },
+    { name: "ブルドッグアリ", category: "その他", imagePath: "/その他/ブルドッグアリ.png" },
   ];
 
   useEffect(() => {
@@ -192,7 +247,15 @@ export default function InsectDetailPage() {
           </div>
 
           {/* アクションボタン */}
-          <div className="flex items-center justify-center gap-6 mb-8">
+          <div className="flex flex-col items-center justify-center gap-4 mb-8">
+            {/* ダウンロードボタン */}
+            <button
+              onClick={handleDownload}
+              className="bg-green-600 hover:bg-green-700 text-white px-12 py-4 rounded-full text-lg font-medium transition-colors"
+            >
+              ダウンロード
+            </button>
+
             {/* シェアボタン（X + はてなブックマークアイコン） */}
             <button
               onClick={handleShare}
@@ -212,14 +275,6 @@ export default function InsectDetailPage() {
                 height={32}
                 className="hover:opacity-80 transition-opacity"
               />
-            </button>
-
-            {/* ダウンロードボタン */}
-            <button
-              onClick={handleDownload}
-              className="bg-green-600 hover:bg-green-700 text-white px-12 py-4 rounded-full text-lg font-medium transition-colors"
-            >
-              ダウンロード
             </button>
           </div>
 
