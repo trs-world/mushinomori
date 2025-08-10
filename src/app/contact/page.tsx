@@ -50,9 +50,6 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100">
-      {/* ヘッダー */}
-      <Header showOnHover={true} />
-      
       {/* 背景画像 */}
       <div className="fixed inset-0 z-0">
         <Image
