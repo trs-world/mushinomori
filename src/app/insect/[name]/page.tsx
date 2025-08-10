@@ -1,8 +1,10 @@
 "use client";
 
-import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import Image from 'next/image';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 // 昆虫データの型定義
 interface InsectData {
@@ -207,24 +209,24 @@ export default function InsectDetailPage() {
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#FFFBF0' }}>
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100">
       {/* ヘッダー */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-4xl mx-auto px-4 py-4">
-          <button
-            onClick={() => router.push('/')}
-            className="flex items-center text-green-600 hover:text-green-700 transition-colors"
-          >
-            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            ホームに戻る
-          </button>
-        </div>
-      </header>
+      <Header />
+      
+      {/* 背景画像 */}
+      <div className="fixed inset-0 z-0">
+        <Image
+          src="/background-PC.png"
+          alt="森の背景"
+          fill
+          className="object-cover opacity-30"
+          priority
+        />
+      </div>
 
       {/* メインコンテンツ */}
-      <main className="max-w-4xl mx-auto px-4 py-8">
+      <div className="relative z-10 container mx-auto px-4 py-8">
+        <main className="max-w-4xl mx-auto">
         <div className="text-center">
           {/* タイトル */}
           <h1 className="text-4xl md:text-5xl font-bold text-green-700 mb-12">
@@ -286,7 +288,11 @@ export default function InsectDetailPage() {
             </p>
           </div>
         </div>
-      </main>
+        </main>
+      </div>
+      
+      {/* フッター */}
+      <Footer />
     </div>
   );
 }

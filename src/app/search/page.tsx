@@ -1,9 +1,11 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
-import { useSearchParams, useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+import Image from 'next/image';
+import Link from 'next/link';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 // 昆虫データの型定義
 interface InsectData {
@@ -166,9 +168,11 @@ export default function SearchPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100">
+      {/* ヘッダー */}
+      <Header showOnHover={true} />
+      
       {/* 背景画像 */}
-      <div 
-        className="fixed inset-0 bg-cover bg-center bg-no-repeat opacity-30"
+      <div className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-30"
         style={{
           backgroundImage: "url('/background-PC.png')"
         }}
@@ -309,15 +313,10 @@ export default function SearchPage() {
           </div>
         </section>
 
-        {/* フッター */}
-        <footer className="py-8 bg-gray-800 text-white">
-          <div className="max-w-7xl mx-auto px-4 text-center">
-            <p className="text-sm text-gray-400">
-              © 2024 虫の森.com - すべての画像は商用利用可能です
-            </p>
-          </div>
-        </footer>
       </div>
+      
+      {/* フッター */}
+      <Footer />
     </div>
   );
 }

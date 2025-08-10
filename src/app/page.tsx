@@ -1,9 +1,11 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import Link from 'next/link';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 // 昆虫データの型定義
 interface InsectData {
@@ -163,7 +165,9 @@ export default function Home() {
 
 
   return (
-    <div className="relative" style={{ minHeight: '70vh' }}>
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100">
+      {/* ヘッダー */}
+      <Header showOnHover={true} />
       {/* 背景画像 - レスポンシブ対応 */}
       <div className="fixed inset-0 z-0">
         {/* PC版背景 */}
@@ -351,6 +355,9 @@ export default function Home() {
           </div>
         </section>
       </div>
+      
+      {/* フッター */}
+      <Footer />
     </div>
   );
 }
