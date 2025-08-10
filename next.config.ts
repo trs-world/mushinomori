@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Netlify用の設定
+  // Netlify用の設定（静的エクスポートなし）
   trailingSlash: true,
   images: {
     unoptimized: true
