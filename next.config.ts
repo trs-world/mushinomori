@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Netlify用の設定（静的エクスポートなし）
+  // Netlify用の設定
   trailingSlash: true,
   images: {
     unoptimized: true
@@ -13,6 +13,17 @@ const nextConfig: NextConfig = {
   // ESLintエラーを無視
   eslint: {
     ignoreDuringBuilds: true,
+  },
+  // 実験的機能の設定（Next.js 15対応）
+  experimental: {
+    // PPR（Partial Prerendering）を無効化
+    ppr: false,
+  },
+  // 出力設定
+  output: 'standalone',
+  // 静的生成の設定
+  generateStaticParams: async () => {
+    return [];
   }
 };
 
