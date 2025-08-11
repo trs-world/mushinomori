@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { generateInsectDataFromImages, filterInsects, type InsectData } from '@/utils/imageScanner';
+import { getAllInsectData, filterInsects, type InsectData } from '@/data/generatedImageData';
 
 function SearchContent() {
   const searchParams = useSearchParams();
@@ -16,9 +16,9 @@ function SearchContent() {
   const [insects, setInsects] = useState<InsectData[]>([]);
   const [filteredInsects, setFilteredInsects] = useState<InsectData[]>([]);
 
-  // 昆虫データの初期化（動的に生成）
+  // 昆虫データの初期化（自動生成されたデータを使用）
   useEffect(() => {
-    const insectData = generateInsectDataFromImages();
+    const insectData = getAllInsectData();
     setInsects(insectData);
   }, []);
 
