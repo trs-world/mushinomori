@@ -120,7 +120,18 @@ export default function TermsPage() {
 
             <section>
               <h2 className="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-green-500 pb-2">
-                第5条（免責事項）
+                第5条（AI生成画像について）
+              </h2>
+              <p>
+                当サイトで使用されている一部の画像は、AI（ChatGPT等）により生成されたものです。
+                これらの画像は商用利用可能なライセンスの下で使用しており、適切な権利処理を行っております。
+                AI生成画像についても、本利用規約の第2条（利用許可）および第3条（禁止事項）が適用されます。
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-green-500 pb-2">
+                第6条（免責事項）
               </h2>
               <p>
                 当サイトのイラストを使用したことによって生じたいかなる損害についても、
@@ -130,7 +141,7 @@ export default function TermsPage() {
 
             <section>
               <h2 className="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-green-500 pb-2">
-                第6条（規約の変更）
+                第7条（規約の変更）
               </h2>
               <p>
                 当サイトは、必要に応じて本規約を変更することがあります。
@@ -140,7 +151,7 @@ export default function TermsPage() {
 
             <section>
               <h2 className="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-green-500 pb-2">
-                第7条（お問い合わせ）
+                第8条（お問い合わせ）
               </h2>
               <p>
                 本規約に関するお問い合わせは、当サイトのお問い合わせフォームよりご連絡ください。

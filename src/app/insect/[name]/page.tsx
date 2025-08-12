@@ -117,6 +117,29 @@ export default function InsectDetailPage() {
 
       {/* メインコンテンツ */}
       <div className="relative z-10 container mx-auto px-4 py-8">
+        {/* 戻るボタン */}
+        <div className="mb-6">
+          <button
+            onClick={() => router.back()}
+            className="flex items-center gap-2 bg-white/90 hover:bg-white backdrop-blur-sm text-green-700 hover:text-green-800 px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 font-medium"
+          >
+            <svg 
+              className="w-5 h-5" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M15 19l-7-7 7-7" 
+              />
+            </svg>
+            戻る
+          </button>
+        </div>
+
         <main className="max-w-4xl mx-auto">
         <div className="text-center">
           {/* タイトル */}
