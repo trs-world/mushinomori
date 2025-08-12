@@ -33,7 +33,27 @@ export default function InsectDetailPage() {
     setLoading(false);
   }, [params.name]);
 
-  // シェア機能
+  // Xシェア機能
+  const handleXShare = () => {
+    if (insect) {
+      const imageUrl = `${window.location.origin}${insect.imagePath}`;
+      const shareText = `${insect.name}の画像をチェック！🌲\n\n画像: ${imageUrl}\n\n#虫の森 #虫`;
+      
+      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
+      window.open(twitterUrl, '_blank');
+    }
+  };
+
+  // はてなブックマークシェア機能
+  const handleHatenaShare = () => {
+    if (insect) {
+      const pageUrl = window.location.href;
+      const hatenaUrl = `https://b.hatena.ne.jp/entry/${encodeURIComponent(pageUrl)}`;
+      window.open(hatenaUrl, '_blank');
+    }
+  };
+
+  // 一般的なシェア機能（Web Share API対応デバイス用）
   const handleShare = () => {
     if (insect) {
       const shareUrl = window.location.href;
@@ -45,9 +65,8 @@ export default function InsectDetailPage() {
           url: shareUrl,
         });
       } else {
-        // フォールバック: X（Twitter）でシェア
-        const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
-        window.open(twitterUrl, '_blank');
+        // フォールバック: Xシェアを呼び出し
+        handleXShare();
       }
     }
   };
@@ -174,7 +193,7 @@ export default function InsectDetailPage() {
 
             {/* シェアボタン（X + はてなブックマークアイコン） */}
             <button
-              onClick={handleShare}
+              onClick={handleXShare}
               className="flex items-center gap-2"
             >
               <Image
@@ -189,7 +208,11 @@ export default function InsectDetailPage() {
                 alt="はてなブックマーク"
                 width={32}
                 height={32}
-                className="hover:opacity-80 transition-opacity"
+                className="hover:opacity-80 transition-opacity cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleHatenaShare();
+                }}
               />
             </button>
           </div>
