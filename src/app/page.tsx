@@ -205,6 +205,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/20" />
       </div>
 
+
       {/* メインコンテンツ */}
       <div className="relative z-10">
         {/* ヒーローセクション */}
@@ -237,13 +238,10 @@ export default function Home() {
             </div>
           </div>
         </section>
-
-
-
         {/* タグ一覧セクション */}
-        <section className="py-12 md:py-16 bg-green-50/90 backdrop-blur-sm">
+        <section className="bg-green-50/90 backdrop-blur-sm" style={{ paddingTop: '30px', paddingBottom: '50px' }}>
           <div className="max-w-7xl mx-auto px-4">
-            <h2 className="text-2xl md:text-4xl font-bold text-center text-green-800 mb-8 md:mb-12">
+            <h2 className="text-2xl md:text-4xl font-bold text-center text-green-800 mb-4">
               カテゴリから探す
             </h2>
             

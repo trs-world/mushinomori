@@ -20,117 +20,61 @@ const CATEGORY_MAPPING: Record<string, string> = {
 };
 
 /**
- * publicフォルダから画像を動的にスキャンして昆虫データを生成
- * この関数はクライアントサイドで実行されるため、
- * 実際の実装では事前に生成されたデータを使用します
+ * ビルド時に生成された画像データを取得
+ * 実際の画像スキャンはbuild時にscripts/generateImageData.jsで実行される
  */
 export function generateInsectDataFromImages(): InsectData[] {
-  // 事前に定義された昆虫データ（既存のデータを保持）
-  const predefinedData: InsectData[] = [
-    // セミ
-    { name: "アカエゾゼミ", category: "セミ", imagePath: "/セミ/アカエゾゼミ.png" },
-    { name: "アブラゼミ", category: "セミ", imagePath: "/セミ/アブラゼミ.png" },
-    { name: "エゾゼミ", category: "セミ", imagePath: "/セミ/エゾゼミ.png" },
-    { name: "エゾハルゼミ", category: "セミ", imagePath: "/セミ/エゾハルゼミ.png" },
-    { name: "クマゼミ", category: "セミ", imagePath: "/セミ/クマゼミ.png" },
-    { name: "コエゾゼミ", category: "セミ", imagePath: "/セミ/コエゾゼミ.png" },
-    { name: "ツクツクボウシ", category: "セミ", imagePath: "/セミ/ツクツクボウシ.png" },
-    { name: "ニイニイゼミ", category: "セミ", imagePath: "/セミ/ニイニイゼミ.png" },
-    { name: "ヒグラシ", category: "セミ", imagePath: "/セミ/ヒグラシ.png" },
+  try {
+    // 生成されたデータファイルから読み込み
+    const generatedData = require('@/data/generatedImageData');
+    return generatedData.getAllInsectData();
+  } catch (error) {
+    console.warn('Generated image data not found, using fallback data:', error);
     
-    // チョウ
-    { name: "アオスジアゲハ", category: "チョウ", imagePath: "/チョウ/アオスジアゲハ.png" },
-    { name: "アカタテハ", category: "チョウ", imagePath: "/チョウ/アカタテハ.png" },
-    { name: "アサギマダラ", category: "チョウ", imagePath: "/チョウ/アサギマダラ.png" },
-    { name: "アレクサンドラトリバネアゲハ", category: "チョウ", imagePath: "/チョウ/アレクサンドラトリバネアゲハ.png" },
-    { name: "イチモンジセセリ", category: "チョウ", imagePath: "/チョウ/イチモンジセセリ.png" },
-    { name: "カラスアゲハ", category: "チョウ", imagePath: "/チョウ/カラスアゲハ.png" },
-    { name: "キアゲハ", category: "チョウ", imagePath: "/チョウ/キアゲハ.png" },
-    { name: "キタキチョウ", category: "チョウ", imagePath: "/チョウ/キタキチョウ.png" },
-    { name: "キタテハ", category: "チョウ", imagePath: "/チョウ/キタテハ.png" },
-    { name: "コミスジ", category: "チョウ", imagePath: "/チョウ/コミスジ.png" },
-    { name: "ゴマダラチョウ", category: "チョウ", imagePath: "/チョウ/ゴマダラチョウ.png" },
-    { name: "ダイミョウセセリ", category: "チョウ", imagePath: "/チョウ/ダイミョウセセリ.png" },
-    { name: "チャバネセセリ", category: "チョウ", imagePath: "/チョウ/チャバネセセリ.png" },
-    { name: "ツバメシジミ(♀)", category: "チョウ", imagePath: "/チョウ/ツバメシジミ(♀).png" },
-    { name: "ツバメシジミ(♂)", category: "チョウ", imagePath: "/チョウ/ツバメシジミ(♂).png" },
-    { name: "ヒカゲチョウ", category: "チョウ", imagePath: "/チョウ/ヒカゲチョウ.png" },
-    { name: "ヒメアカタテハ", category: "チョウ", imagePath: "/チョウ/ヒメアカタテハ .png" },
-    { name: "ベニシジミ", category: "チョウ", imagePath: "/チョウ/ベニシジミ.png" },
-    { name: "ミドリヒョウモン", category: "チョウ", imagePath: "/チョウ/ミドリヒョウモン.png" },
-    { name: "ムラサキシジミ", category: "チョウ", imagePath: "/チョウ/ムラサキシジミ.png" },
-    { name: "モンキチョウ", category: "チョウ", imagePath: "/チョウ/モンキチョウ.png" },
-    { name: "モンシロチョウ", category: "チョウ", imagePath: "/チョウ/モンシロチョウ.png" },
-    { name: "ヤマトシジミ", category: "チョウ", imagePath: "/チョウ/ヤマトシジミ.png" },
-    
-    // カブト・クワガタ
-    { name: "アカアシクワガタ", category: "カブト・クワガタ", imagePath: "/カブト・クワガタ/アカアシクワガタ.png" },
-    { name: "アトラスオオカブト", category: "カブト・クワガタ", imagePath: "/カブト・クワガタ/アトラスオオカブト.png" },
-    { name: "オオクワガタ", category: "カブト・クワガタ", imagePath: "/カブト・クワガタ/オオクワガタ.png" },
-    { name: "カブトムシ", category: "カブト・クワガタ", imagePath: "/カブト・クワガタ/カブトムシ.png" },
-    { name: "コクワガタ", category: "カブト・クワガタ", imagePath: "/カブト・クワガタ/コクワガタ.png" },
-    { name: "ヒラタクワガタ", category: "カブト・クワガタ", imagePath: "/カブト・クワガタ/ヒラタクワガタ.png" },
-    { name: "ヘラクレスオオカブト", category: "カブト・クワガタ", imagePath: "/カブト・クワガタ/ヘラクレスオオカブト.png" },
-    { name: "ミヤマクワガタ", category: "カブト・クワガタ", imagePath: "/カブト・クワガタ/ミヤマクワガタ.png" },
-    
-    // ガ
-    { name: "アケビコノハ", category: "ガ", imagePath: "/ガ/アケビコノハ.png" },
-    { name: "オオミズアオ", category: "ガ", imagePath: "/ガ/オオミズアオ.png" },
-    { name: "オオスカシバ", category: "ガ", imagePath: "/ガ/オオスカシバ.png" },
-    { name: "クスサン", category: "ガ", imagePath: "/ガ/クスサン.png" },
-    { name: "シンジュサン", category: "ガ", imagePath: "/ガ/シンジュサン.png" },
-    { name: "スズメガ", category: "ガ", imagePath: "/ガ/スズメガ.png" },
-    { name: "ヤママユ", category: "ガ", imagePath: "/ガ/ヤママユ.png" },
-    
-    // その他
-    { name: "アリ", category: "その他", imagePath: "/その他/アリ.png" },
-    { name: "カマキリ", category: "その他", imagePath: "/その他/カマキリ.png" },
-    { name: "コオロギ", category: "その他", imagePath: "/その他/コオロギ.png" },
-    { name: "ゴキブリ", category: "その他", imagePath: "/その他/ゴキブリ.png" },
-    { name: "スズムシ", category: "その他", imagePath: "/その他/スズムシ.png" },
-    { name: "バッタ", category: "その他", imagePath: "/その他/バッタ.png" },
-    
-    // 身近な虫
-    { name: "アブ", category: "身近な虫", imagePath: "/身近な虫/アブ.png" },
-    { name: "カ", category: "身近な虫", imagePath: "/身近な虫/カ.png" },
-    { name: "ハエ", category: "身近な虫", imagePath: "/身近な虫/ハエ.png" },
-    { name: "ハチ", category: "身近な虫", imagePath: "/身近な虫/ハチ.png" },
-  ];
-
-  // カエルの画像を動的に追加
-  const frogData: InsectData[] = [
-    { name: "アイフィンガーガエル", category: "カエル", imagePath: "/カエル/アイフィンガーガエル.png" },
-    { name: "アフリカツメガエル(泳いでる姿)", category: "カエル", imagePath: "/カエル/アフリカツメガエル(泳いでる姿).png" },
-    { name: "アフリカツメガエル", category: "カエル", imagePath: "/カエル/アフリカツメガエル.png" },
-    { name: "アマミイシカワガエル", category: "カエル", imagePath: "/カエル/アマミイシカワガエル.png" },
-    { name: "アメフクラガエル", category: "カエル", imagePath: "/カエル/アメフクラガエル.png" },
-    { name: "ウシガエル", category: "カエル", imagePath: "/カエル/ウシガエル.png" },
-    { name: "オオハナサキガエル", category: "カエル", imagePath: "/カエル/オオハナサキガエル.png" },
-    { name: "オットンガエル", category: "カエル", imagePath: "/カエル/オットンガエル.png" },
-    { name: "ゴライアスガエル", category: "カエル", imagePath: "/カエル/ゴライアスガエル.png" },
-    { name: "サドガエル", category: "カエル", imagePath: "/カエル/サドガエル.png" },
-    { name: "タゴガエル", category: "カエル", imagePath: "/カエル/タゴガエル.png" },
-    { name: "チョウセンヤマアカガエル", category: "カエル", imagePath: "/カエル/チョウセンヤマアカガエル.png" },
-    { name: "ツチガエル", category: "カエル", imagePath: "/カエル/ツチガエル.png" },
-    { name: "ツノガエル(アルビノ)", category: "カエル", imagePath: "/カエル/ツノガエル(アルビノ).png" },
-    { name: "ツノガエル(ペパーミント)", category: "カエル", imagePath: "/カエル/ツノガエル(ペパーミント).png" },
-    { name: "ツノガエル(緑)", category: "カエル", imagePath: "/カエル/ツノガエル(緑).png" },
-    { name: "ツノガエル(赤)", category: "カエル", imagePath: "/カエル/ツノガエル(赤).png" },
-    { name: "トウキョウダルマガエル", category: "カエル", imagePath: "/カエル/トウキョウダルマガエル.png" },
-    { name: "トノサマガエル", category: "カエル", imagePath: "/カエル/トノサマガエル.png" },
-    { name: "ナミガエル", category: "カエル", imagePath: "/カエル/ナミガエル.png" },
-    { name: "ヌマガエル", category: "カエル", imagePath: "/カエル/ヌマガエル.png" },
-    { name: "ハナサキガエル", category: "カエル", imagePath: "/カエル/ハナサキガエル.png" },
-    { name: "バシェットガエル(口開け)", category: "カエル", imagePath: "/カエル/バシェットガエル(口開け).png" },
-    { name: "バジェットガエル", category: "カエル", imagePath: "/カエル/バジェットガエル.png" },
-    { name: "ヒキガエル", category: "カエル", imagePath: "/カエル/ヒキガエル.png" },
-    { name: "ホルストガエル", category: "カエル", imagePath: "/カエル/ホルストガエル.png" },
-    { name: "ヤエヤマアオガエル", category: "カエル", imagePath: "/カエル/ヤエヤマアオガエル.png" },
-    { name: "ヤドクガエル", category: "カエル", imagePath: "/カエル/ヤドクガエル.png" },
-  ];
-
-  // 既存データとカエルデータを結合
-  return [...predefinedData, ...frogData];
+    // フォールバック用の基本データ
+    return [
+      // セミ
+      { name: "アカエゾゼミ", category: "セミ", imagePath: "/セミ/アカエゾゼミ.png" },
+      { name: "アブラゼミ", category: "セミ", imagePath: "/セミ/アブラゼミ.png" },
+      { name: "エゾゼミ", category: "セミ", imagePath: "/セミ/エゾゼミ.png" },
+      { name: "エゾハルゼミ", category: "セミ", imagePath: "/セミ/エゾハルゼミ.png" },
+      { name: "クマゼミ", category: "セミ", imagePath: "/セミ/クマゼミ.png" },
+      { name: "コエゾゼミ", category: "セミ", imagePath: "/セミ/コエゾゼミ.png" },
+      { name: "ツクツクボウシ", category: "セミ", imagePath: "/セミ/ツクツクボウシ.png" },
+      { name: "ニイニイゼミ", category: "セミ", imagePath: "/セミ/ニイニイゼミ.png" },
+      { name: "ヒグラシ", category: "セミ", imagePath: "/セミ/ヒグラシ.png" },
+      
+      // カエル（全28種類）
+      { name: "アイフィンガーガエル", category: "カエル", imagePath: "/カエル/アイフィンガーガエル.png" },
+      { name: "アフリカツメガエル(泳いでる姿)", category: "カエル", imagePath: "/カエル/アフリカツメガエル(泳いでる姿).png" },
+      { name: "アフリカツメガエル", category: "カエル", imagePath: "/カエル/アフリカツメガエル.png" },
+      { name: "アマミイシカワガエル", category: "カエル", imagePath: "/カエル/アマミイシカワガエル.png" },
+      { name: "アメフクラガエル", category: "カエル", imagePath: "/カエル/アメフクラガエル.png" },
+      { name: "ウシガエル", category: "カエル", imagePath: "/カエル/ウシガエル.png" },
+      { name: "オオハナサキガエル", category: "カエル", imagePath: "/カエル/オオハナサキガエル.png" },
+      { name: "オットンガエル", category: "カエル", imagePath: "/カエル/オットンガエル.png" },
+      { name: "ゴライアスガエル", category: "カエル", imagePath: "/カエル/ゴライアスガエル.png" },
+      { name: "サドガエル", category: "カエル", imagePath: "/カエル/サドガエル.png" },
+      { name: "タゴガエル", category: "カエル", imagePath: "/カエル/タゴガエル.png" },
+      { name: "チョウセンヤマアカガエル", category: "カエル", imagePath: "/カエル/チョウセンヤマアカガエル.png" },
+      { name: "ツチガエル", category: "カエル", imagePath: "/カエル/ツチガエル.png" },
+      { name: "ツノガエル(アルビノ)", category: "カエル", imagePath: "/カエル/ツノガエル(アルビノ).png" },
+      { name: "ツノガエル(ペパーミント)", category: "カエル", imagePath: "/カエル/ツノガエル(ペパーミント).png" },
+      { name: "ツノガエル(緑)", category: "カエル", imagePath: "/カエル/ツノガエル(緑).png" },
+      { name: "ツノガエル(赤)", category: "カエル", imagePath: "/カエル/ツノガエル(赤).png" },
+      { name: "トウキョウダルマガエル", category: "カエル", imagePath: "/カエル/トウキョウダルマガエル.png" },
+      { name: "トノサマガエル", category: "カエル", imagePath: "/カエル/ナミガエル.png" },
+      { name: "ナミガエル", category: "カエル", imagePath: "/カエル/ナミガエル.png" },
+      { name: "ヌマガエル", category: "カエル", imagePath: "/カエル/ヌマガエル.png" },
+      { name: "ハナサキガエル", category: "カエル", imagePath: "/カエル/ハナサキガエル.png" },
+      { name: "バシェットガエル(口開け)", category: "カエル", imagePath: "/カエル/バシェットガエル(口開け).png" },
+      { name: "バジェットガエル", category: "カエル", imagePath: "/カエル/バジェットガエル.png" },
+      { name: "ヒキガエル", category: "カエル", imagePath: "/カエル/ヒキガエル.png" },
+      { name: "ホルストガエル", category: "カエル", imagePath: "/カエル/ホルストガエル.png" },
+      { name: "ヤエヤマアオガエル", category: "カエル", imagePath: "/カエル/ヤエヤマアオガエル.png" },
+      { name: "ヤドクガエル", category: "カエル", imagePath: "/カエル/ヤドクガエル.png" },
+    ];
+  }
 }
 
 /**

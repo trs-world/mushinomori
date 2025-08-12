@@ -21,6 +21,8 @@ export default function TagPage() {
   const tag = decodeURIComponent(params.tag as string);
   const [insects, setInsects] = useState<InsectData[]>([]);
   const [tagInsects, setTagInsects] = useState<InsectData[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 18;
 
   // 昆虫データの初期化（動的データ生成）
   useEffect(() => {
@@ -32,7 +34,21 @@ export default function TagPage() {
   useEffect(() => {
     const filtered = insects.filter(insect => insect.category === tag);
     setTagInsects(filtered);
+    setCurrentPage(1); // フィルタが変わったら1ページ目に戻る
   }, [insects, tag]);
+
+  // ページネーション計算
+  const totalPages = Math.ceil(tagInsects.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentInsects = tagInsects.slice(startIndex, endIndex);
+
+  // ページ変更ハンドラー
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    // ページ変更時にトップにスクロール
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   // タグ情報を取得
   const getTagInfo = (tagName: string) => {
@@ -144,28 +160,78 @@ export default function TagPage() {
         <section className="py-12 md:py-16 bg-white/90 backdrop-blur-sm">
           <div className="max-w-7xl mx-auto px-4">
             {tagInsects.length > 0 ? (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
-                {tagInsects.map((insect, index) => (
-                  <Link key={index} href={`/insect/${encodeURIComponent(insect.name)}`}>
-                    <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer transform hover:-translate-y-1">
-                      <div className="aspect-square relative">
-                        <Image
-                          src={insect.imagePath}
-                          alt={insect.name}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
+              <>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
+                  {currentInsects.map((insect, index) => (
+                    <Link key={index} href={`/insect/${encodeURIComponent(insect.name)}`}>
+                      <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer transform hover:-translate-y-1">
+                        <div className="aspect-square relative">
+                          <Image
+                            src={insect.imagePath}
+                            alt={insect.name}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                        </div>
+                        <div className="p-3 md:p-4">
+                          <h3 className="font-semibold text-sm md:text-base text-gray-800 truncate group-hover:text-green-600 transition-colors">
+                            {insect.name}
+                          </h3>
+                          <p className="text-xs text-gray-500 mt-1">{insect.category}</p>
+                        </div>
                       </div>
-                      <div className="p-3 md:p-4">
-                        <h3 className="font-semibold text-sm md:text-base text-gray-800 truncate group-hover:text-green-600 transition-colors">
-                          {insect.name}
-                        </h3>
-                        <p className="text-xs text-gray-500 mt-1">{insect.category}</p>
-                      </div>
+                    </Link>
+                  ))}
+                </div>
+
+                {/* ページネーション */}
+                {totalPages > 1 && (
+                  <div className="mt-12 flex justify-center items-center space-x-2">
+                    {/* 前へボタン */}
+                    <button
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
+                      className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                        currentPage === 1
+                          ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                          : 'bg-green-600 text-white hover:bg-green-700'
+                      }`}
+                    >
+                      前へ
+                    </button>
+
+                    {/* ページ番号 */}
+                    <div className="flex space-x-1">
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                        <button
+                          key={page}
+                          onClick={() => handlePageChange(page)}
+                          className={`px-3 py-2 rounded-lg font-medium transition-colors ${
+                            currentPage === page
+                              ? 'bg-green-600 text-white'
+                              : 'bg-white text-gray-700 hover:bg-green-100'
+                          }`}
+                        >
+                          {page}
+                        </button>
+                      ))}
                     </div>
-                  </Link>
-                ))}
-              </div>
+
+                    {/* 次へボタン */}
+                    <button
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                      className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                        currentPage === totalPages
+                          ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                          : 'bg-green-600 text-white hover:bg-green-700'
+                      }`}
+                    >
+                      次へ
+                    </button>
+                  </div>
+                )}
+              </>
             ) : (
               <div className="text-center py-16">
                 <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">

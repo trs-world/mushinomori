@@ -15,6 +15,8 @@ function SearchContent() {
   const [searchQuery, setSearchQuery] = useState(query);
   const [insects, setInsects] = useState<InsectData[]>([]);
   const [filteredInsects, setFilteredInsects] = useState<InsectData[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 18;
 
   // 昆虫データの初期化（全カエルデータを含む）
   useEffect(() => {
@@ -97,13 +99,16 @@ function SearchContent() {
     setInsects(insectData);
   }, []);
 
-  // 検索機能（新しいフィルタリング関数を使用）
+  // 検索クエリが変更されたときの処理
   useEffect(() => {
-    if (query.trim() === "") {
-      setFilteredInsects([]);
-    } else {
+    if (query) {
+      setSearchQuery(query);
       const filtered = filterInsects(insects, query);
       setFilteredInsects(filtered);
+      setCurrentPage(1); // 検索時にページを1に戻す
+    } else {
+      setFilteredInsects([]);
+      setCurrentPage(1);
     }
   }, [query, insects]);
 
@@ -119,6 +124,18 @@ function SearchContent() {
     if (e.key === 'Enter') {
       handleSearch(searchQuery);
     }
+  };
+
+  // ページネーション用の計算
+  const totalPages = Math.ceil(filteredInsects.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentInsects = filteredInsects.slice(startIndex, endIndex);
+
+  // ページ変更処理
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -198,8 +215,9 @@ function SearchContent() {
                 </div>
 
                 {filteredInsects.length > 0 ? (
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
-                    {filteredInsects.map((insect, index) => (
+                  <>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
+                      {currentInsects.map((insect, index) => (
                       <Link key={index} href={`/insect/${encodeURIComponent(insect.name)}`}>
                         <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer transform hover:-translate-y-1">
                           <div className="aspect-square relative">
@@ -220,14 +238,76 @@ function SearchContent() {
                       </Link>
                     ))}
                   </div>
-                ) : (
-                  <div className="text-center py-16">
-                    <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
-                      <span className="text-4xl text-gray-400">🔍</span>
+
+                  {/* ページネーション */}
+                  {totalPages > 1 && (
+                    <div className="mt-8 flex justify-center items-center space-x-2">
+                      {/* 前へボタン */}
+                      <button
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                          currentPage === 1
+                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                            : 'bg-white text-gray-700 hover:bg-green-50 hover:text-green-600 border border-gray-300'
+                        }`}
+                      >
+                        前へ
+                      </button>
+
+                      {/* ページ番号 */}
+                      <div className="flex space-x-1">
+                        {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+                          let pageNum;
+                          if (totalPages <= 5) {
+                            pageNum = i + 1;
+                          } else if (currentPage <= 3) {
+                            pageNum = i + 1;
+                          } else if (currentPage >= totalPages - 2) {
+                            pageNum = totalPages - 4 + i;
+                          } else {
+                            pageNum = currentPage - 2 + i;
+                          }
+
+                          return (
+                            <button
+                              key={pageNum}
+                              onClick={() => handlePageChange(pageNum)}
+                              className={`w-10 h-10 rounded-lg text-sm font-medium transition-colors ${
+                                currentPage === pageNum
+                                  ? 'bg-green-600 text-white'
+                                  : 'bg-white text-gray-700 hover:bg-green-50 hover:text-green-600 border border-gray-300'
+                              }`}
+                            >
+                              {pageNum}
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      {/* 次へボタン */}
+                      <button
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                          currentPage === totalPages
+                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                            : 'bg-white text-gray-700 hover:bg-green-50 hover:text-green-600 border border-gray-300'
+                        }`}
+                      >
+                        次へ
+                      </button>
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-600 mb-2">
-                      検索結果が見つかりません
-                    </h3>
+                  )}
+                </>
+              ) : (
+                <div className="text-center py-16">
+                  <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
+                    <span className="text-4xl text-gray-400">🔍</span>
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-600 mb-2">
+                    検索結果が見つかりません
+                  </h3>
                     <p className="text-gray-500 mb-4">
                       「{query}」に一致する昆虫が見つかりませんでした。
                     </p>
