@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 interface HeaderProps {
@@ -44,9 +45,18 @@ export default function Header({ showOnHover = false }: HeaderProps) {
 
               {/* 右側: サイトタイトル */}
               <div className="flex items-center">
-                <h1 className="text-lg md:text-xl font-bold text-gray-800">
-                  🌲 虫の森.com
-                </h1>
+                <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                  <Image
+                    src="/logo.png"
+                    alt="虫の森ロゴ"
+                    width={32}
+                    height={32}
+                    className="w-6 h-6 md:w-8 md:h-8"
+                  />
+                  <h1 className="text-lg md:text-xl font-bold text-gray-800">
+                    虫の森
+                  </h1>
+                </Link>
               </div>
             </div>
           </div>
@@ -84,9 +94,18 @@ export default function Header({ showOnHover = false }: HeaderProps) {
 
           {/* 右側: サイトタイトル */}
           <div className="flex items-center">
-            <h1 className="text-xl font-bold text-gray-800">
-              🌲 虫の森.com
-            </h1>
+            <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+              <Image
+                src="/logo.png"
+                alt="虫の森ロゴ"
+                width={32}
+                height={32}
+                className="w-8 h-8"
+              />
+              <h1 className="text-xl font-bold text-gray-800">
+                虫の森
+              </h1>
+            </Link>
           </div>
         </div>
       </div>
