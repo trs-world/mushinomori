@@ -15,6 +15,8 @@ export default function ContactPage() {
     subject: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   useEffect(() => {
     setIsLoading(false);
@@ -28,16 +30,37 @@ export default function ContactPage() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // お問い合わせフォームの送信処理（実装例）
-    alert('お問い合わせありがとうございます。内容を確認後、ご連絡いたします。');
-    setFormData({
-      name: '',
-      email: '',
-      subject: '',
-      message: ''
-    });
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: ''
+        });
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      console.error('送信エラー:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isLoading) {
@@ -170,11 +193,28 @@ export default function ContactPage() {
             <div className="text-center">
               <button
                 type="submit"
-                className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                disabled={isSubmitting}
+                className={`font-bold py-3 px-8 rounded-lg shadow-lg transition-all duration-300 transform ${
+                  isSubmitting
+                    ? 'bg-gray-400 cursor-not-allowed'
+                    : 'bg-green-600 hover:bg-green-700 hover:shadow-xl hover:scale-105'
+                } text-white`}
               >
-                📧 送信する
+                {isSubmitting ? '📤 送信中...' : '📧 送信する'}
               </button>
             </div>
+
+            {/* 送信結果メッセージ */}
+            {submitStatus === 'success' && (
+              <div className="mt-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg text-center">
+                ✅ お問い合わせを送信しました。内容を確認後、ご連絡いたします。
+              </div>
+            )}
+            {submitStatus === 'error' && (
+              <div className="mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg text-center">
+                ❌ 送信に失敗しました。しばらく時間をおいて再度お試しください。
+              </div>
+            )}
           </form>
 
           {/* 注意事項 */}
