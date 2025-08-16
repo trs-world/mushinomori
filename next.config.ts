@@ -20,11 +20,7 @@ const nextConfig: NextConfig = {
     ppr: false,
   },
   // 出力設定
-  output: 'standalone',
-  // 静的生成の設定
-  generateStaticParams: async () => {
-    return [];
-  }
+  output: 'standalone'
 };
 
 export default nextConfig;
