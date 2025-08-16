@@ -36,7 +36,7 @@ export default function InsectDetailPage() {
   // Xシェア機能
   const handleXShare = () => {
     if (insect) {
-      const imageUrl = `${window.location.origin}/insect${insect.imagePath}`;
+      const imageUrl = `${window.location.origin}/insect/${insect.name}`;
       const shareText = `${insect.name}の画像をチェック！🌲\n\n画像: ${imageUrl}\n\n#虫の森 #虫`;
       
       const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
