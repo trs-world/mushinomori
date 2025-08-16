@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     }
 
     // メール設定（Yahoo Mail SMTPを使用）
-    const transporter = nodemailer.createTransporter({
+    const transporter = nodemailer.createTransport({
       host: 'smtp.mail.yahoo.co.jp',
       port: 587,
       secure: false,
@@ -77,8 +77,24 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('メール送信エラー:', error);
+    
+    // 環境変数の確認
+    if (!process.env.YAHOO_USER || !process.env.YAHOO_APP_PASSWORD) {
+      console.error('環境変数が設定されていません:', {
+        YAHOO_USER: !!process.env.YAHOO_USER,
+        YAHOO_APP_PASSWORD: !!process.env.YAHOO_APP_PASSWORD
+      });
+      return NextResponse.json(
+        { error: '環境変数が設定されていません' },
+        { status: 500 }
+      );
+    }
+    
     return NextResponse.json(
-      { error: 'メール送信に失敗しました' },
+      { 
+        error: 'メール送信に失敗しました',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     );
   }
