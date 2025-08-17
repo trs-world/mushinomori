@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import RelatedImages from '@/components/RelatedImages';
 import { generateInsectDataFromImages } from '@/utils/imageScanner';
 
 // 昆虫データの型定義
@@ -225,6 +226,9 @@ export default function InsectDetailPage() {
             </p>
           </div>
         </div>
+
+        {/* 関連画像セクション */}
+        <RelatedImages currentInsect={insect} />
         </main>
       </div>
       
