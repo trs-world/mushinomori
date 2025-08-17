@@ -103,8 +103,10 @@ export default function TagPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100">
-      {/* ヘッダー */}
-      <Header showOnHover={true} />
+      {/* ヘッダー - スマホでは非表示 */}
+      <div className="hidden md:block">
+        <Header showOnHover={true} />
+      </div>
       
       {/* 背景画像 */}
       <div className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-30"
